@@ -87,13 +87,6 @@
             color: white;
             left: 50%;
             transform: translateX(-50%);
-            animation: moveText 4s linear infinite;
-        }
-
-        @keyframes moveText {
-            0% { transform: translateX(-100%); }
-            50% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
         }
 
     </style>
@@ -111,14 +104,14 @@
     <div class="shop">
         <div class="shop-details">
             <p>النقاط المتوفرة: <span id="scoreDisplay">0</span></p>
-            <button id="buyTriplePoints">شراء تدبيل النقاط ×3 بـ 1000 نقطة</button>
-            <button id="buyFivePoints">شراء تدبيل النقاط ×5 بـ 10000 نقطة</button>
+            <button id="buyTriplePoints">شراء تدبيل النقاط ×3 بـ 5000 نقطة</button>
+            <button id="buyTenPoints">شراء تدبيل النقاط ×10 بـ 15000 نقطة</button>
         </div>
     </div>
 
     <div class="message" id="message"></div>
 
-    <div class="footer">Maker.DARK</div>
+    <div class="footer">Dark</div>
 
     <script>
         let score = 0;
@@ -159,9 +152,9 @@
 
         // Shop Functions
         document.getElementById('buyTriplePoints').addEventListener('click', () => {
-            if (score >= 1000) {
+            if (score >= 5000) {
                 pointsMultiplier = 3;
-                score -= 1000;
+                score -= 5000;
                 updateScoreDisplay();
                 showMessage('تم تفعيل تدبيل النقاط ×3');
             } else {
@@ -169,12 +162,12 @@
             }
         });
 
-        document.getElementById('buyFivePoints').addEventListener('click', () => {
-            if (score >= 10000) {
-                pointsMultiplier = 5;
-                score -= 10000;
+        document.getElementById('buyTenPoints').addEventListener('click', () => {
+            if (score >= 15000) {
+                pointsMultiplier = 10;
+                score -= 15000;
                 updateScoreDisplay();
-                showMessage('تم تفعيل تدبيل النقاط ×5');
+                showMessage('تم تفعيل تدبيل النقاط ×10');
             } else {
                 showMessage('لديك نقاط غير كافية.');
             }

@@ -99,6 +99,19 @@
         .word {
             margin: 5px;
             font-weight: bold;
+            opacity: 1;
+            animation: fall 2s ease-out forwards;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(200px); /* سقوط الكلمة للأسفل */
+                opacity: 0; /* اختفاء الكلمة */
+            }
         }
     </style>
 </head>
@@ -122,7 +135,7 @@
 
     <div class="message" id="message"></div>
 
-    <!-- Container for displaying words -->
+    <!-- Container for displaying falling words -->
     <div class="words-container" id="wordsContainer"></div>
 
     <script>
@@ -158,7 +171,7 @@
                     showMessage('كفو! لقد ضغطت أكثر من 10000 مرة، استمر يا بطل!');
                 }
 
-                // Show the word "أحمد عمك" in different colors with each press
+                // Show the word "أحمد عمك" falling with different colors
                 displayWord();
             }
         }
@@ -177,7 +190,7 @@
             }, 3000);
         }
 
-        // Display the word "أحمد عمك" with different colors
+        // Display the word "أحمد عمك" with different colors and make it fall
         function displayWord() {
             const wordElement = document.createElement('div');
             wordElement.textContent = 'أحمد عمك';
@@ -189,6 +202,11 @@
 
             // Append the word element to the container
             wordsContainer.appendChild(wordElement);
+
+            // Remove word after animation ends to clean up
+            setTimeout(() => {
+                wordsContainer.removeChild(wordElement);
+            }, 2000); // Same duration as the animation
         }
 
         // Shop Functions

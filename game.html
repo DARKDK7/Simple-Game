@@ -103,10 +103,10 @@
         .word {
             margin: 5px;
             font-weight: bold;
-            opacity: 1;
             position: absolute;
             top: -40px; /* يبدأ من فوق الزر */
-            animation: fall 1s ease-out forwards;
+            animation: fall 1.5s ease-out forwards;
+            opacity: 0;
         }
 
         @keyframes fall {
@@ -114,8 +114,11 @@
                 transform: translateY(0);
                 opacity: 1;
             }
+            50% {
+                opacity: 1;
+            }
             100% {
-                transform: translateY(200px); /* تسقط الكلمة للأسفل */
+                transform: translateY(150px); /* تسقط الكلمة للأسفل */
                 opacity: 0; /* تختفي الكلمة */
             }
         }
@@ -155,7 +158,7 @@
         const pressButton = document.getElementById('pressButton');
         const wordsContainer = document.getElementById('wordsContainer');
 
-        const colors = ['#e74c3c', '#34495e', '#2980b9', '#2ecc71']; // Red, Black, Blue, Green
+        const colors = ['#e74c3c', '#34495e', '#2980b9', '#2ecc71', '#f39c12', '#8e44ad']; // Red, Black, Blue, Green, Yellow, Purple
 
         // Load saved score from local storage
         if(localStorage.getItem('score')) {
@@ -212,7 +215,7 @@
             // Remove word after animation ends to clean up
             setTimeout(() => {
                 wordsContainer.removeChild(wordElement);
-            }, 1000); // Same duration as the animation
+            }, 1500); // Same duration as the animation
         }
 
         // Shop Functions

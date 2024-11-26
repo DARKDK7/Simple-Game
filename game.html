@@ -158,7 +158,7 @@
         const pressButton = document.getElementById('pressButton');
         const wordsContainer = document.getElementById('wordsContainer');
 
-        const colors = ['#34495e', '#2980b9', '#2ecc71', '#f39c12', '#8e44ad']; // Black, Blue, Green, Yellow, Purple
+        const colors = ['#ffffff', '#ffff00', '#00ffff', '#00ff00', '#0000ff']; // White, Yellow, Cyan, Green, Blue
 
         // Load saved score from local storage
         if(localStorage.getItem('score')) {
@@ -205,7 +205,7 @@
             wordElement.textContent = 'أحمد عمك';
             wordElement.classList.add('word');
 
-            // Set random color for each press, but exclude red
+            // Set random color for each press
             const randomColor = colors[Math.floor(Math.random() * colors.length)];
             wordElement.style.color = randomColor;
 

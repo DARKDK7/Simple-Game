@@ -17,27 +17,30 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            overflow-x: hidden;
         }
 
         h1 {
+            font-size: 3rem;
             margin-top: 0;
-            font-size: 6vw;
-            margin-bottom: 20px;
+        }
+
+        .score-board {
+            font-size: 2rem;
+            margin: 20px;
         }
 
         .button {
             background-color: #e74c3c;
             color: white;
-            font-size: 5vw;
+            font-size: 2rem;
             border-radius: 50%;
-            padding: 10vw;
+            padding: 100px;
             cursor: pointer;
             border: none;
             outline: none;
             transition: transform 0.3s ease, background-color 0.3s ease;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-            margin-top: 20px;
         }
 
         .button:active {
@@ -45,31 +48,24 @@
             background-color: #c0392b;
         }
 
-        .score-board {
-            font-size: 4vw;
-            margin: 20px;
-        }
-
         .shop {
-            margin-top: 3vw;
+            margin-top: 30px;
             background-color: rgba(0, 0, 0, 0.6);
-            border-radius: 1vw;
-            padding: 3vw;
+            border-radius: 10px;
+            padding: 20px;
             display: inline-block;
-            margin-bottom: 5vw;
         }
 
         .shop button {
             background-color: #3498db;
             border: none;
-            padding: 2vw 4vw;
-            margin: 1vw;
+            padding: 10px 20px;
+            margin: 5px;
             color: white;
-            font-size: 3vw;
-            border-radius: 1vw;
+            font-size: 1.2rem;
+            border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
-            width: 20vw;
         }
 
         .shop button:hover {
@@ -77,57 +73,47 @@
         }
 
         .message {
-            font-size: 2vw;
-            margin-top: 3vw;
+            font-size: 1.5rem;
+            margin-top: 20px;
             color: #f39c12;
             display: none;
         }
 
-        .shop-details {
-            font-size: 3vw;
+        .footer {
+            position: absolute;
+            bottom: 10px;
+            font-size: 1rem;
             color: white;
-            margin-bottom: 3vw;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: moveText 4s linear infinite;
         }
 
-        .message {
-            font-size: 4vw;
+        @keyframes moveText {
+            0% { transform: translateX(-100%); }
+            50% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
         }
 
-        .shop-details {
-            font-size: 4vw;
+        /* Style for messages with colors */
+        .message-box {
+            font-size: 2rem;
+            font-weight: bold;
+            animation: moveDown 2s ease-in-out;
         }
 
-        @media screen and (max-width: 600px) {
-            h1 {
-                font-size: 8vw;
-            }
-
-            .button {
-                font-size: 12vw;
-                padding: 15vw;
-            }
-
-            .score-board {
-                font-size: 5vw;
-            }
-
-            .shop {
-                padding: 5vw;
-            }
-
-            .shop button {
-                font-size: 4vw;
-                padding: 4vw 6vw;
-            }
-
-            .message {
-                font-size: 4vw;
-            }
-
-            .shop-details {
-                font-size: 4vw;
-            }
+        @keyframes moveDown {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(0); }
         }
+
+        /* Shop enhancements */
+        .shop-button {
+            width: 250px;
+            margin: 10px;
+            font-size: 1.5rem;
+        }
+        
     </style>
 </head>
 <body>
@@ -138,25 +124,31 @@
         النقاط: <span id="score">0</span>
     </div>
 
-    <button class="button" id="pressButton" onclick="increaseScore()">اضغط هنا</button>
-
-    <div class="shop">
-        <div class="shop-details">
-            <p>النقاط المتوفرة: <span id="scoreDisplay">0</span></p>
-            <button id="goToShop">انتقل إلى المتجر</button>
-        </div>
-    </div>
+    <button class="button" id="pressButton" onclick="increaseScore()">لا تضغط!</button>
 
     <div class="message" id="message"></div>
 
+    <div class="shop">
+        <h2>المتجر</h2>
+        <button class="shop-button" id="buyDoublePoints">مضاعفة النقاط ×2 - 5000 نقطة</button>
+        <button class="shop-button" id="buyTriplePoints">مضاعفة النقاط ×3 - 10000 نقطة</button>
+        <button class="shop-button" id="buyFivePoints">مضاعفة النقاط ×5 - 20000 نقطة</button>
+        <button class="shop-button" id="buyBackgroundChange">تغيير لون الخلفية - 500000 نقطة</button>
+        <button class="shop-button" id="buyColorChange">تغيير لون الزر - 5000 نقطة</button>
+    </div>
+
+    <div class="footer">ألعاب DARK</div>
+
     <script>
         let score = 0;
+        let pointsMultiplier = 1;
         let canPress = true;
+
         const scoreDisplay = document.getElementById('score');
-        const scoreText = document.getElementById('scoreDisplay');
         const messageBox = document.getElementById('message');
         const pressButton = document.getElementById('pressButton');
 
+        // Load saved score from local storage
         if(localStorage.getItem('score')) {
             score = parseInt(localStorage.getItem('score'));
             updateScoreDisplay();
@@ -164,20 +156,70 @@
 
         function increaseScore() {
             if (canPress) {
-                score++;
+                score += pointsMultiplier;
                 updateScoreDisplay();
             }
         }
 
         function updateScoreDisplay() {
             scoreDisplay.textContent = score;
-            scoreText.textContent = score;
             localStorage.setItem('score', score);
         }
 
-        document.getElementById('goToShop').addEventListener('click', () => {
-            window.location.href = 'shop.html';  // يوجه المستخدم إلى صفحة المتجر
+        function showMessage(message) {
+            messageBox.textContent = message;
+            messageBox.style.display = 'block';
+            setTimeout(() => {
+                messageBox.style.display = 'none';
+            }, 3000);
+        }
+
+        // Shop functions
+        document.getElementById('buyDoublePoints').addEventListener('click', () => {
+            if (score >= 5000) {
+                pointsMultiplier = 2;
+                score -= 5000;
+                updateScoreDisplay();
+                showMessage('تم تفعيل مضاعفة النقاط ×2');
+            }
         });
+
+        document.getElementById('buyTriplePoints').addEventListener('click', () => {
+            if (score >= 10000) {
+                pointsMultiplier = 3;
+                score -= 10000;
+                updateScoreDisplay();
+                showMessage('تم تفعيل مضاعفة النقاط ×3');
+            }
+        });
+
+        document.getElementById('buyFivePoints').addEventListener('click', () => {
+            if (score >= 20000) {
+                pointsMultiplier = 5;
+                score -= 20000;
+                updateScoreDisplay();
+                showMessage('تم تفعيل مضاعفة النقاط ×5');
+            }
+        });
+
+        document.getElementById('buyColorChange').addEventListener('click', () => {
+            if (score >= 5000) {
+                pressButton.style.backgroundColor = '#16a085'; 
+                score -= 5000;
+                updateScoreDisplay();
+                showMessage('تم تغيير لون الزر');
+            }
+        });
+
+        document.getElementById('buyBackgroundChange').addEventListener('click', () => {
+            if (score >= 500000) {
+                document.body.style.background = 'linear-gradient(to right, #2980b9, #6dd5fa)';
+                score -= 500000;
+                updateScoreDisplay();
+                showMessage('تم تغيير لون الخلفية');
+            }
+        });
+
     </script>
 </body>
 </html>

@@ -3,44 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الصفحة الرئيسية</title>
+    <title>لعبة النقاط</title>
     <style>
         body {
-            background-color: #1a1a1a;
+            background: linear-gradient(to right, #2c3e50, #34495e);
             font-family: 'Arial', sans-serif;
+            color: white;
             text-align: center;
-            color: white;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
         }
+
         h1 {
-            font-size: 36px;
-            margin-top: 20%;
+            margin-top: 0;
+            font-size: 6vw;
+            margin-bottom: 20px;
         }
-        .start-btn {
-            background-color: #ff5733;
+
+        .button {
+            background-color: #e74c3c;
             color: white;
-            border: none;
-            padding: 15px 30px;
-            font-size: 20px;
+            font-size: 5vw;
+            border-radius: 50%;
+            padding: 10vw;
             cursor: pointer;
+            border: none;
+            outline: none;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
             margin-top: 20px;
-            border-radius: 5px;
         }
-        .start-btn:hover {
-            background-color: #ff6f47;
+
+        .button:active {
+            transform: scale(0.95);
+            background-color: #c0392b;
+        }
+
+        .score-board {
+            font-size: 4vw;
+            margin: 20px;
+        }
+
+        .shop {
+            margin-top: 3vw;
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 1vw;
+            padding: 3vw;
+            display: inline-block;
+            margin-bottom: 5vw;
+        }
+
+        .shop button {
+            background-color: #3498db;
+            border: none;
+            padding: 2vw 4vw;
+            margin: 1vw;
+            color: white;
+            font-size: 3vw;
+            border-radius: 1vw;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 20vw;
+        }
+
+        .shop button:hover {
+            background-color: #2980b9;
+        }
+
+        .message {
+            font-size: 2vw;
+            margin-top: 3vw;
+            color: #f39c12;
+            display: none;
+        }
+
+        .shop-details {
+            font-size: 3vw;
+            color: white;
+            margin-bottom: 3vw;
+        }
+
+        .message {
+            font-size: 4vw;
+        }
+
+        .shop-details {
+            font-size: 4vw;
+        }
+
+        @media screen and (max-width: 600px) {
+            h1 {
+                font-size: 8vw;
+            }
+
+            .button {
+                font-size: 12vw;
+                padding: 15vw;
+            }
+
+            .score-board {
+                font-size: 5vw;
+            }
+
+            .shop {
+                padding: 5vw;
+            }
+
+            .shop button {
+                font-size: 4vw;
+                padding: 4vw 6vw;
+            }
+
+            .message {
+                font-size: 4vw;
+            }
+
+            .shop-details {
+                font-size: 4vw;
+            }
         }
     </style>
 </head>
 <body>
 
-    <h1> مرحبًا بك في لعبة الضغط وعلى فكره احمد عمك</h1>
-    <button class="start-btn" onclick="startGame()">ابدأ اللعب</button>
+    <h1>لعبة النقاط</h1>
+
+    <div class="score-board">
+        النقاط: <span id="score">0</span>
+    </div>
+
+    <button class="button" id="pressButton" onclick="increaseScore()">اضغط هنا</button>
+
+    <div class="shop">
+        <div class="shop-details">
+            <p>النقاط المتوفرة: <span id="scoreDisplay">0</span></p>
+            <button id="goToShop">انتقل إلى المتجر</button>
+        </div>
+    </div>
+
+    <div class="message" id="message"></div>
 
     <script>
-        function startGame() {
-            // يمكنك هنا إعادة توجيه المستخدم إلى صفحة اللعبة
-            window.location.href = "game.html"; // استبدل "game.html" باسم ملف اللعبة
-        }
-    </script>
+        let score = 0;
+        let canPress = true;
+        const scoreDisplay = document.getElementById('score');
+        const scoreText = document.getElementById('scoreDisplay');
+        const messageBox = document.getElementById('message');
+        const pressButton = document.getElementById('pressButton');
 
+        if(localStorage.getItem('score')) {
+            score = parseInt(localStorage.getItem('score'));
+            updateScoreDisplay();
+        }
+
+        function increaseScore() {
+            if (canPress) {
+                score++;
+                updateScoreDisplay();
+            }
+        }
+
+        function updateScoreDisplay() {
+            scoreDisplay.textContent = score;
+            scoreText.textContent = score;
+            localStorage.setItem('score', score);
+        }
+
+        document.getElementById('goToShop').addEventListener('click', () => {
+            window.location.href = 'shop.html';  // يوجه المستخدم إلى صفحة المتجر
+        });
+    </script>
 </body>
 </html>

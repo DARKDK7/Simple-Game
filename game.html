@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لعبة النقاط</title>
+    <style>
+        body {
+            background: linear-gradient(to right, #2c3e50, #34495e);
+            font-family: 'Arial', sans-serif;
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            margin-top: 0;
+            font-size: 3rem;
+        }
+
+        .button {
+            background-color: #e74c3c;
+            color: white;
+            font-size: 2rem;
+            border-radius: 50%;
+            padding: 100px;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .button:active {
+            transform: scale(0.95);
+            background-color: #c0392b;
+        }
+
+        .score-board {
+            font-size: 2rem;
+            margin: 20px;
+        }
+
+        .shop {
+            margin-top: 30px;
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            padding: 20px;
+            display: inline-block;
+        }
+
+        .shop button {
+            background-color: #3498db;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            color: white;
+            font-size: 1.2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .shop button:hover {
+            background-color: #2980b9;
+        }
+
+        .message {
+            font-size: 1.5rem;
+            margin-top: 20px;
+            color: #f39c12;
+            display: none;
+        }
+
+        .shop-details {
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 10px;
+            font-size: 1rem;
+            color: white;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: moveText 4s linear infinite;
+        }
+
+        @keyframes moveText {
+            0% { transform: translateX(-100%); }
+            50% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>لعبة النقاط</h1>
+
+    <div class="score-board">
+        النقاط: <span id="score">0</span>
+    </div>
+
+    <button class="button" id="pressButton" onclick="increaseScore()">لا تضغط!</button>
+
+    <div class="shop">
+        <div class="shop-details">
+            <p>النقاط المتوفرة: <span id="scoreDisplay">0</span></p>
+            <button id="buyDoublePoints">شراء تدبيل النقاط ×2</button>
+            <button id="buyTriplePoints">شراء تدبيل النقاط ×3</button>
+            <button id="buyColorChange">تغيير لون الزر بـ 600 نقطة</button>
+            <button id="buyBackgroundChange">تغيير الخلفية بـ 5000 نقطة</button>
+        </div>
+    </div>
+
+    <div class="message" id="message"></div>
+
+    <div class="footer">Maker.DARK</div>
+
+    <script>
+        let score = 0;
+        let pointsMultiplier = 1;
+        let canPress = true;
+
+        const scoreDisplay = document.getElementById('score');
+        const scoreText = document.getElementById('scoreDisplay');
+        const messageBox = document.getElementById('message');
+        const pressButton = document.getElementById('pressButton');
+
+        // Load saved score from local storage
+        if(localStorage.getItem('score')) {
+            score = parseInt(localStorage.getItem('score'));
+            updateScoreDisplay();
+        }
+
+        function increaseScore() {
+            if (canPress) {
+                score += pointsMultiplier;
+                updateScoreDisplay();
+
+                // Change button size as user progresses
+                const newSize = 100 + Math.floor(score / 100);
+                pressButton.style.padding = `${newSize}px`;
+
+                // Show message after 10000 points
+                if (score >= 10000) {
+                    showMessage('كفو لقد ضغطت أكثر من 10000 ضغطه كمل يا أسطوره');
+                }
+            }
+        }
+
+        function updateScoreDisplay() {
+            scoreDisplay.textContent = score;
+            scoreText.textContent = score;
+            localStorage.setItem('score', score);
+        }
+
+        function showMessage(message) {
+            messageBox.textContent = message;
+            messageBox.style.display = 'block';
+            setTimeout(() => {
+                messageBox.style.display = 'none';
+            }, 3000);
+        }
+
+        // Shop Functions
+        document.getElementById('buyDoublePoints').addEventListener('click', () => {
+            if (score >= 200) {
+                pointsMultiplier = 2;
+                score -= 200;
+                updateScoreDisplay();
+                showMessage('تم تفعيل تدبيل النقاط ×2');
+            }
+        });
+
+        document.getElementById('buyTriplePoints').addEventListener('click', () => {
+            if (score >= 300) {
+                pointsMultiplier = 3;
+                score -= 300;
+                updateScoreDisplay();
+                showMessage('تم تفعيل تدبيل النقاط ×3');
+            }
+        });
+
+        document.getElementById('buyColorChange').addEventListener('click', () => {
+            if (score >= 600) {
+                pressButton.style.backgroundColor = '#16a085';
+                score -= 600;
+                updateScoreDisplay();
+                showMessage('تم تغيير لون الزر');
+            }
+        });
+
+        document.getElementById('buyBackgroundChange').addEventListener('click', () => {
+            if (score >= 5000) {
+                document.body.style.background = 'linear-gradient(to right, #2980b9, #6dd5fa)';
+                score -= 5000;
+                updateScoreDisplay();
+                showMessage('تم تغيير الخلفية');
+            }
+        });
+    </script>
+</body>
+</html>

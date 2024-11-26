@@ -22,6 +22,7 @@
         h1 {
             margin-top: 0;
             font-size: 3rem;
+            margin-bottom: 20px;
         }
 
         .button {
@@ -35,6 +36,7 @@
             outline: none;
             transition: transform 0.3s ease, background-color 0.3s ease;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            margin-top: 20px;
         }
 
         .button:active {
@@ -53,18 +55,20 @@
             border-radius: 10px;
             padding: 20px;
             display: inline-block;
+            margin-bottom: 50px;
         }
 
         .shop button {
             background-color: #3498db;
             border: none;
-            padding: 10px 20px;
-            margin: 5px;
+            padding: 15px 30px;
+            margin: 10px;
             color: white;
-            font-size: 1.2rem;
-            border-radius: 5px;
+            font-size: 1.5rem;
+            border-radius: 10px;
             cursor: pointer;
             transition: background-color 0.3s;
+            width: 200px;
         }
 
         .shop button:hover {
@@ -79,26 +83,23 @@
         }
 
         .shop-details {
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             color: white;
+            margin-bottom: 20px;
         }
 
-        .footer {
-            position: absolute;
-            bottom: 10px;
-            font-size: 1rem;
-            color: white;
-            left: 50%;
-            transform: translateX(-50%);
-            animation: moveText 4s linear infinite;
+        .words-container {
+            margin-top: 20px;
+            font-size: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        @keyframes moveText {
-            0% { transform: translateX(-100%); }
-            50% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
+        .word {
+            margin: 5px;
+            font-weight: bold;
         }
-
     </style>
 </head>
 <body>
@@ -114,16 +115,15 @@
     <div class="shop">
         <div class="shop-details">
             <p>النقاط المتوفرة: <span id="scoreDisplay">0</span></p>
-            <button id="buyDoublePoints">شراء تدبيل النقاط ×2</button>
-            <button id="buyTriplePoints">شراء تدبيل النقاط ×3</button>
-            <button id="buyColorChange">تغيير لون الزر بـ 600 نقطة</button>
-            <button id="buyBackgroundChange">تغيير الخلفية بـ 5000 نقطة</button>
+            <button id="buyTriplePoints">شراء تدبيل النقاط ×3 بـ 1000 نقطة</button>
+            <button id="buyDecuplePoints">شراء تدبيل النقاط ×10 بـ 50000 نقطة</button>
         </div>
     </div>
 
     <div class="message" id="message"></div>
 
-    <div class="footer">Maker.DARK</div>
+    <!-- Container for displaying words -->
+    <div class="words-container" id="wordsContainer"></div>
 
     <script>
         let score = 0;
@@ -134,6 +134,9 @@
         const scoreText = document.getElementById('scoreDisplay');
         const messageBox = document.getElementById('message');
         const pressButton = document.getElementById('pressButton');
+        const wordsContainer = document.getElementById('wordsContainer');
+
+        const colors = ['#e74c3c', '#34495e', '#2980b9', '#2ecc71']; // Red, Black, Blue, Green
 
         // Load saved score from local storage
         if(localStorage.getItem('score')) {
@@ -152,8 +155,11 @@
 
                 // Show message after 10000 points
                 if (score >= 10000) {
-                    showMessage('كفو لقد ضغطت أكثر من 10000 ضغطه كمل يا أسطوره');
+                    showMessage('كفو! لقد ضغطت أكثر من 10000 مرة، استمر يا بطل!');
                 }
+
+                // Show the word "أحمد عمك" in different colors with each press
+                displayWord();
             }
         }
 
@@ -171,40 +177,40 @@
             }, 3000);
         }
 
-        // Shop Functions
-        document.getElementById('buyDoublePoints').addEventListener('click', () => {
-            if (score >= 200) {
-                pointsMultiplier = 2;
-                score -= 200;
-                updateScoreDisplay();
-                showMessage('تم تفعيل تدبيل النقاط ×2');
-            }
-        });
+        // Display the word "أحمد عمك" with different colors
+        function displayWord() {
+            const wordElement = document.createElement('div');
+            wordElement.textContent = 'أحمد عمك';
+            wordElement.classList.add('word');
 
+            // Set random color for each press
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            wordElement.style.color = randomColor;
+
+            // Append the word element to the container
+            wordsContainer.appendChild(wordElement);
+        }
+
+        // Shop Functions
         document.getElementById('buyTriplePoints').addEventListener('click', () => {
-            if (score >= 300) {
+            if (score >= 1000) {
                 pointsMultiplier = 3;
-                score -= 300;
+                score -= 1000;
                 updateScoreDisplay();
                 showMessage('تم تفعيل تدبيل النقاط ×3');
+            } else {
+                showMessage('عذراً، تحتاج إلى 1000 نقطة لتفعيل تدبيل النقاط ×3');
             }
         });
 
-        document.getElementById('buyColorChange').addEventListener('click', () => {
-            if (score >= 600) {
-                pressButton.style.backgroundColor = '#16a085';
-                score -= 600;
+        document.getElementById('buyDecuplePoints').addEventListener('click', () => {
+            if (score >= 50000) {
+                pointsMultiplier = 10;
+                score -= 50000;
                 updateScoreDisplay();
-                showMessage('تم تغيير لون الزر');
-            }
-        });
-
-        document.getElementById('buyBackgroundChange').addEventListener('click', () => {
-            if (score >= 5000) {
-                document.body.style.background = 'linear-gradient(to right, #2980b9, #6dd5fa)';
-                score -= 5000;
-                updateScoreDisplay();
-                showMessage('تم تغيير الخلفية');
+                showMessage('تم تفعيل تدبيل النقاط ×10');
+            } else {
+                showMessage('عذراً، تحتاج إلى 50000 نقطة لتفعيل تدبيل النقاط ×10');
             }
         });
     </script>

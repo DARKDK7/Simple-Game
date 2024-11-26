@@ -110,7 +110,6 @@
             font-size: 20px;
         }
 
-        /* New Styling for Store Items */
         .store-item {
             margin-top: 15px;
             padding: 10px;
@@ -130,6 +129,22 @@
             font-size: 18px;
             font-weight: bold;
         }
+
+        /* New Styling for Add Points Button */
+        .add-points-btn {
+            background-color: #ff9800;
+            color: white;
+            border: none;
+            font-size: 16px;
+            padding: 15px 30px;
+            margin: 10px;
+            border-radius: 50px;
+        }
+
+        .add-points-btn:active {
+            background-color: #fb8c00;
+        }
+
     </style>
 </head>
 <body>
@@ -146,6 +161,7 @@
         <button class="button change-background-btn" id="change-background">تغيير الخلفية - 500000 نقاط</button>
         <button class="button change-color-btn" id="change-color">تغيير اللون - 5000 نقاط</button>
         <button class="button store-btn" id="open-store">فتح المتجر</button>
+        <button class="add-points-btn" id="add-points">إضافة نقاط - 1000 نقطة</button> <!-- زر إضافة النقاط -->
     </div>
 
     <div class="input-container">
@@ -183,6 +199,7 @@
     const promoCodeInput = document.getElementById("promo-code");
     const storeSection = document.getElementById("store-section");
 
+    // أزرار الشراء والتفاعل
     document.getElementById("buy-x3").addEventListener("click", () => {
         if (score >= 500) {
             score -= 500;
@@ -223,10 +240,12 @@
         }
     });
 
+    // فتح المتجر
     document.getElementById("open-store").addEventListener("click", () => {
         storeSection.style.display = "block";
     });
 
+    // إضافة نقاط عبر الكود
     document.getElementById("apply-code").addEventListener("click", () => {
         const code = promoCodeInput.value.trim();
         if (code === "DARK77") {
@@ -238,6 +257,7 @@
         }
     });
 
+    // شراء عناصر المتجر
     document.getElementById("background-item").addEventListener("click", () => {
         if (score >= 500000) {
             score -= 500000;
@@ -262,10 +282,5 @@
         }
     });
 
-    function updateScore() {
-        scoreDisplay.textContent = score;
-    }
-</script>
-
-</body>
-</html>
+    // زر إضافة نقاط
+    document.getElementById("add-points").addEventListener("click", () =>

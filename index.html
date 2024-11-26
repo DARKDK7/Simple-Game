@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الصفحة الرئيسية</title>
+    <style>
+        body {
+            background-color: #1a1a1a;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            color: white;
+        }
+        h1 {
+            font-size: 36px;
+            margin-top: 20%;
+        }
+        .start-btn {
+            background-color: #ff5733;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 20px;
+            cursor: pointer;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+        .start-btn:hover {
+            background-color: #ff6f47;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>مرحبًا بك في لعبة الضغط</h1>
+    <button class="start-btn" onclick="startGame()">ابدأ اللعب</button>
+
+    <script>
+        function startGame() {
+            // يمكنك هنا إعادة توجيه المستخدم إلى صفحة اللعبة
+            window.location.href = "game.html"; // استبدل "game.html" باسم ملف اللعبة
+        }
+    </script>
+
+</body>
+</html>

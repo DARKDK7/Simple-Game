@@ -3,223 +3,269 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لعبة النقاط</title>
+    <title>اللعبة</title>
     <style>
         body {
-            background: linear-gradient(to right, #2c3e50, #34495e);
             font-family: 'Arial', sans-serif;
+            background-color: #1c1c1c;
             color: white;
-            text-align: center;
             margin: 0;
             padding: 0;
-            height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            overflow-x: hidden;
+            justify-content: center;
+            height: 100vh;
         }
 
-        h1 {
-            font-size: 3rem;
-            margin-top: 0;
+        .container {
+            text-align: center;
         }
 
-        .score-board {
-            font-size: 2rem;
-            margin: 20px;
+        .buttons-container {
+            margin-top: 20px;
         }
 
         .button {
-            background-color: #e74c3c;
-            color: white;
-            font-size: 2rem;
-            border-radius: 50%;
-            padding: 100px;
-            cursor: pointer;
-            border: none;
-            outline: none;
-            transition: transform 0.3s ease, background-color 0.3s ease;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .button:active {
-            transform: scale(0.95);
-            background-color: #c0392b;
-        }
-
-        .shop {
-            margin-top: 30px;
-            background-color: rgba(0, 0, 0, 0.6);
-            border-radius: 10px;
-            padding: 20px;
-            display: inline-block;
-        }
-
-        .shop button {
-            background-color: #3498db;
-            border: none;
-            padding: 10px 20px;
-            margin: 5px;
-            color: white;
-            font-size: 1.2rem;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .shop button:hover {
-            background-color: #2980b9;
-        }
-
-        .message {
-            font-size: 1.5rem;
-            margin-top: 20px;
-            color: #f39c12;
-            display: none;
-        }
-
-        .footer {
-            position: absolute;
-            bottom: 10px;
-            font-size: 1rem;
-            color: white;
-            left: 50%;
-            transform: translateX(-50%);
-            animation: moveText 4s linear infinite;
-        }
-
-        @keyframes moveText {
-            0% { transform: translateX(-100%); }
-            50% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-        }
-
-        /* Style for messages with colors */
-        .message-box {
-            font-size: 2rem;
-            font-weight: bold;
-            animation: moveDown 2s ease-in-out;
-        }
-
-        @keyframes moveDown {
-            0% { transform: translateY(-100%); }
-            100% { transform: translateY(0); }
-        }
-
-        /* Shop enhancements */
-        .shop-button {
-            width: 250px;
+            border-radius: 50px;
+            padding: 15px 30px;
             margin: 10px;
-            font-size: 1.5rem;
+            cursor: pointer;
+            font-size: 16px;
+            transition: transform 0.3s ease-in-out;
         }
-        
+
+        .button:hover {
+            transform: scale(1.1);
+        }
+
+        .buy-btn {
+            background-color: #f44336;
+            color: white;
+            border: none;
+        }
+
+        .buy-btn:active {
+            background-color: #d32f2f;
+        }
+
+        .change-background-btn {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+        }
+
+        .change-background-btn:active {
+            background-color: #388e3c;
+        }
+
+        .change-color-btn {
+            background-color: #008cba;
+            color: white;
+            border: none;
+        }
+
+        .change-color-btn:active {
+            background-color: #0077b6;
+        }
+
+        .store-btn {
+            background-color: #673ab7;
+            color: white;
+            border: none;
+        }
+
+        .store-btn:active {
+            background-color: #5e35b1;
+        }
+
+        .input-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .input-container input {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .alert {
+            color: yellow;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+
+        .reward {
+            color: green;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .message-box {
+            margin-top: 20px;
+            color: white;
+            font-size: 20px;
+        }
+
+        /* New Styling for Store Items */
+        .store-item {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #333;
+            cursor: pointer;
+            width: 300px;
+            margin: 10px auto;
+        }
+
+        .store-item:hover {
+            background-color: #444;
+        }
+
+        .price {
+            color: yellow;
+            font-size: 18px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
 
-    <h1>لعبة النقاط</h1>
-
-    <div class="score-board">
-        النقاط: <span id="score">0</span>
+<div class="container">
+    <h1>مرحبًا في اللعبة</h1>
+    <div id="score-display">
+        <h2>النقاط الحالية: <span id="score">0</span></h2>
     </div>
 
-    <button class="button" id="pressButton" onclick="increaseScore()">لا تضغط!</button>
-
-    <div class="message" id="message"></div>
-
-    <div class="shop">
-        <h2>المتجر</h2>
-        <button class="shop-button" id="buyDoublePoints">مضاعفة النقاط ×2 - 5000 نقطة</button>
-        <button class="shop-button" id="buyTriplePoints">مضاعفة النقاط ×3 - 10000 نقطة</button>
-        <button class="shop-button" id="buyFivePoints">مضاعفة النقاط ×5 - 20000 نقطة</button>
-        <button class="shop-button" id="buyBackgroundChange">تغيير لون الخلفية - 500000 نقطة</button>
-        <button class="shop-button" id="buyColorChange">تغيير لون الزر - 5000 نقطة</button>
+    <div class="buttons-container">
+        <button class="button buy-btn" id="buy-x3">شراء ×3 - 500 نقاط</button>
+        <button class="button buy-btn" id="buy-x10">شراء ×10 - 50000 نقاط</button>
+        <button class="button change-background-btn" id="change-background">تغيير الخلفية - 500000 نقاط</button>
+        <button class="button change-color-btn" id="change-color">تغيير اللون - 5000 نقاط</button>
+        <button class="button store-btn" id="open-store">فتح المتجر</button>
     </div>
 
-    <div class="footer">ألعاب DARK</div>
+    <div class="input-container">
+        <input type="text" id="promo-code" placeholder="ادخل الكود هنا">
+        <button class="button" id="apply-code">تطبيق الكود</button>
+    </div>
 
-    <script>
-        let score = 0;
-        let pointsMultiplier = 1;
-        let canPress = true;
+    <div class="alert" id="alert"></div>
+    <div class="message-box" id="message-box"></div>
 
-        const scoreDisplay = document.getElementById('score');
-        const messageBox = document.getElementById('message');
-        const pressButton = document.getElementById('pressButton');
+    <!-- Store Section -->
+    <div id="store-section" style="display: none;">
+        <h3>متجر اللعبة</h3>
+        <div class="store-item" id="background-item">
+            <p>تغيير خلفية اللعبة</p>
+            <p class="price">500000 نقاط</p>
+        </div>
+        <div class="store-item" id="color-item">
+            <p>تغيير لون الزر</p>
+            <p class="price">5000 نقاط</p>
+        </div>
+        <div class="store-item" id="x5-item">
+            <p>شراء ×5</p>
+            <p class="price">10000 نقاط</p>
+        </div>
+    </div>
+</div>
 
-        // Load saved score from local storage
-        if(localStorage.getItem('score')) {
-            score = parseInt(localStorage.getItem('score'));
-            updateScoreDisplay();
+<script>
+    let score = 0;
+    let multiplier = 1;
+    const scoreDisplay = document.getElementById("score");
+    const alertBox = document.getElementById("alert");
+    const messageBox = document.getElementById("message-box");
+    const promoCodeInput = document.getElementById("promo-code");
+    const storeSection = document.getElementById("store-section");
+
+    document.getElementById("buy-x3").addEventListener("click", () => {
+        if (score >= 500) {
+            score -= 500;
+            multiplier = 3;
+            updateScore();
+        } else {
+            alertBox.textContent = "يجب أن يكون لديك 500 نقطة على الأقل لشراء ×3";
         }
+    });
 
-        function increaseScore() {
-            if (canPress) {
-                score += pointsMultiplier;
-                updateScoreDisplay();
-            }
+    document.getElementById("buy-x10").addEventListener("click", () => {
+        if (score >= 50000) {
+            score -= 50000;
+            multiplier = 10;
+            updateScore();
+        } else {
+            alertBox.textContent = "يجب أن يكون لديك 50000 نقطة على الأقل لشراء ×10";
         }
+    });
 
-        function updateScoreDisplay() {
-            scoreDisplay.textContent = score;
-            localStorage.setItem('score', score);
+    document.getElementById("change-background").addEventListener("click", () => {
+        if (score >= 500000) {
+            score -= 500000;
+            document.body.style.backgroundColor = "lightblue";
+            updateScore();
+        } else {
+            alertBox.textContent = "يجب أن يكون لديك 500000 نقطة لتغيير الخلفية!";
         }
+    });
 
-        function showMessage(message) {
-            messageBox.textContent = message;
-            messageBox.style.display = 'block';
-            setTimeout(() => {
-                messageBox.style.display = 'none';
-            }, 3000);
+    document.getElementById("change-color").addEventListener("click", () => {
+        if (score >= 5000) {
+            score -= 5000;
+            document.body.style.color = "red";
+            updateScore();
+        } else {
+            alertBox.textContent = "يجب أن يكون لديك 5000 نقطة لتغيير اللون!";
         }
+    });
 
-        // Shop functions
-        document.getElementById('buyDoublePoints').addEventListener('click', () => {
-            if (score >= 5000) {
-                pointsMultiplier = 2;
-                score -= 5000;
-                updateScoreDisplay();
-                showMessage('تم تفعيل مضاعفة النقاط ×2');
-            }
-        });
+    document.getElementById("open-store").addEventListener("click", () => {
+        storeSection.style.display = "block";
+    });
 
-        document.getElementById('buyTriplePoints').addEventListener('click', () => {
-            if (score >= 10000) {
-                pointsMultiplier = 3;
-                score -= 10000;
-                updateScoreDisplay();
-                showMessage('تم تفعيل مضاعفة النقاط ×3');
-            }
-        });
+    document.getElementById("apply-code").addEventListener("click", () => {
+        const code = promoCodeInput.value.trim();
+        if (code === "DARK77") {
+            score += 999999999;
+            updateScore();
+            alertBox.textContent = "تم تطبيق الكود بنجاح!";
+        } else {
+            alertBox.textContent = "الكود غير صحيح!";
+        }
+    });
 
-        document.getElementById('buyFivePoints').addEventListener('click', () => {
-            if (score >= 20000) {
-                pointsMultiplier = 5;
-                score -= 20000;
-                updateScoreDisplay();
-                showMessage('تم تفعيل مضاعفة النقاط ×5');
-            }
-        });
+    document.getElementById("background-item").addEventListener("click", () => {
+        if (score >= 500000) {
+            score -= 500000;
+            document.body.style.backgroundColor = "lightblue";
+            updateScore();
+        }
+    });
 
-        document.getElementById('buyColorChange').addEventListener('click', () => {
-            if (score >= 5000) {
-                pressButton.style.backgroundColor = '#16a085'; 
-                score -= 5000;
-                updateScoreDisplay();
-                showMessage('تم تغيير لون الزر');
-            }
-        });
+    document.getElementById("color-item").addEventListener("click", () => {
+        if (score >= 5000) {
+            score -= 5000;
+            document.body.style.color = "green";
+            updateScore();
+        }
+    });
 
-        document.getElementById('buyBackgroundChange').addEventListener('click', () => {
-            if (score >= 500000) {
-                document.body.style.background = 'linear-gradient(to right, #2980b9, #6dd5fa)';
-                score -= 500000;
-                updateScoreDisplay();
-                showMessage('تم تغيير لون الخلفية');
-            }
-        });
+    document.getElementById("x5-item").addEventListener("click", () => {
+        if (score >= 10000) {
+            score -= 10000;
+            multiplier = 5;
+            updateScore();
+        }
+    });
 
-    </script>
+    function updateScore() {
+        scoreDisplay.textContent = score;
+    }
+</script>
+
 </body>
 </html>

@@ -138,6 +138,7 @@
         <div class="shop-details">
             <p>النقاط المتوفرة: <span id="scoreDisplay">0</span></p>
             <button id="buyTriplePoints">شراء تدبيل النقاط ×3 بـ 1000 نقطة</button>
+            <button id="buyFivePoints">شراء تدبيل النقاط ×5 بـ 10000 نقطة</button>
             <button id="buyDecuplePoints">شراء تدبيل النقاط ×10 بـ 50000 نقطة</button>
         </div>
     </div>
@@ -164,6 +165,11 @@
         if(localStorage.getItem('score')) {
             score = parseInt(localStorage.getItem('score'));
             updateScoreDisplay();
+        }
+
+        // Load points multiplier (if any) from local storage
+        if(localStorage.getItem('pointsMultiplier')) {
+            pointsMultiplier = parseInt(localStorage.getItem('pointsMultiplier'));
         }
 
         function increaseScore() {
@@ -222,6 +228,7 @@
         document.getElementById('buyTriplePoints').addEventListener('click', () => {
             if (score >= 1000) {
                 pointsMultiplier = 3;
+                localStorage.setItem('pointsMultiplier', 3); // Save multiplier
                 score -= 1000;
                 updateScoreDisplay();
                 showMessage('تم تفعيل تدبيل النقاط ×3');
@@ -230,9 +237,22 @@
             }
         });
 
+        document.getElementById('buyFivePoints').addEventListener('click', () => {
+            if (score >= 10000) {
+                pointsMultiplier = 5;
+                localStorage.setItem('pointsMultiplier', 5); // Save multiplier
+                score -= 10000;
+                updateScoreDisplay();
+                showMessage('تم تفعيل تدبيل النقاط ×5');
+            } else {
+                showMessage('عذراً، تحتاج إلى 10000 نقطة لتفعيل تدبيل النقاط ×5');
+            }
+        });
+
         document.getElementById('buyDecuplePoints').addEventListener('click', () => {
             if (score >= 50000) {
                 pointsMultiplier = 10;
+                localStorage.setItem('pointsMultiplier', 10); // Save multiplier
                 score -= 50000;
                 updateScoreDisplay();
                 showMessage('تم تفعيل تدبيل النقاط ×10');
